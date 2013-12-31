@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Quiz Bowl Tester</title>
+<link rel="stylesheet" type="text/css" href="main.css" />
+<link rel="stylesheet" type="text/css" href="jquery-ui-1.8.8.custom.css" />
+<script type="text/javascript" src="js/libs/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/libs/jquery-ui-1.8.8.custom.min.js"></script>
+<script type="text/javascript" src="js/libs/simplemodal.js"></script>   
+<script type="text/javascript" src="js/questionDisplay.js"></script>
+<script type="text/javascript" src="js/main.js"></script>
+
+<script type="text/javascript">
+// Click handlers and other simple functions go here
+function answerClick()
+{
+	if (hasQuestion && !isAnswering)
+		startAnswer();
+}
+
+function changeClick()
+{
+	submitAnswerAjax(true);	
+}
+
+function giveUpClick()
+{
+	giveUp();
+}
+
+function newQuestionClick()
+{
+	getQuestion({});
+}
+
+function hideTournament()
+{
+	stopDisplay();
+	var tournament = $("#tournament").text();
+	if (tournament != "")
+		getQuestion({hideTournament: tournament});
+	else
+		getQuestion({});
+}
+
+function hideCategory()
+{
+	stopDisplay();
+	var category = $("#category").text();
+	if (category != "")
+		getQuestion({hideCategory: category});
+	else
+		getQuestion({});
+}
+
+function resetOptions()
+{
+	stopDisplay();
+	getQuestion({resetOptions:true});
+}
+
+</script>
+
+</head>
+<body>
+<div id="main">
+<a href="leaderboard.jsp">View Leaderboard</a>
+<form method="post">
+
+<div id="questionMain">
+
+	<div id="options">
+		<div class="optionsLine">
+			Answering questions as: <input type="text" name="usernameBox" id="usernameBox"/>
+		</div>
+		<div id="numQuestionsDiv" class="optionsLine">
+			You have answered <span id="numQuestions"></span> questions.
+		</div>
+		<div class="optionsLine">
+			Category: <span id="category"></span>
+		</div>
+		<div class="optionsLine">
+			Question from <span id="tournament"></span>
+		</div>
+		<div class="optionsLine">
+			<input type="button" name="hideTournamentButton" id="hideTournamentButton" 
+				value="Don't show questions from this tournament"
+				onclick="hideTournament();"/>
+		</div>
+		<div class="optionsLine">
+			<input type="button" name="hideCategoryButton" id="hideCategoryButton"
+				value="Don't show questions from this category"
+				onclick="hideCategory();"/>
+		</div>
+		<div class="optionsLine">
+			<input type="button" name="resetButton" id="resetButton"
+				value="Show all questions" onclick="resetOptions();"/>
+		</div>
+		<div id="optionsLine">
+			Text Reveal Speed: 
+			<div id="sliderWrapper"> 
+				<div id="slider"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="questionBox">
+		Click "New Question" to select a new question.
+	</div>
+	
+	<div id="answer">
+		<input type="text" name="answerBox" id="answerBox" onclick="answerClick();"
+			/>
+		
+		<input type="button" name="startAnswerButton" id="startAnswerButton" 
+			value="Answer (or press space)" onclick="startAnswer();"/>
+			
+		<input type="button" name="submitAnswerButton" id="submitAnswerButton"
+			value="Submit (or press enter)" onclick="submitAnswer();"/>
+			
+		<input type="button" name="newQuestionButton" id="newQuestionButton"
+			value="New Question (or press space)" onclick="newQuestionClick();"/>			
+		
+		<input type="button" name="giveUpButton" id="giveUpButton"
+			value="(S)kip question" onclick="giveUpClick();"/>
+		
+	</div>
+	
+	
+	
+
+</div>
+
+<div id="responseMain">
+
+	<div id="correctArea">
+		<div id="correct">Correct!</div>
+		<div id="incorrect">Incorrect</div>
+		<div id="blank">(Not Answered)</div>
+		<input type="button" name="changeAnswerButton" id="changeAnswerButton"
+			value="My answer was correct" onclick="changeClick();"/>
+	</div>
+		
+	<div id="orderArea">
+		<div class="heading">People who answered before you did:</div>
+		<div class="list" id="answeredBefore"></div>
+		
+		<div class="heading">People who answered after you did:</div>
+		<div class="list" id="answeredAfter"></div>
+	</div>
+	
+	<div class="heading">Correct Answers:</div>
+	<div class="list" id="correctList"></div>
+	
+	<div class="heading">Incorrect Answers:</div>
+	<div class="list" id="incorrectList"></div>
+	
+</div>
+
+</form>
+</div>
+
+<script type="text/javascript">
+
+
+	$(document).ready(startup);
+</script>
+
+
+
+</body>
+
+</html>
