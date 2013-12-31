@@ -1,7 +1,5 @@
 Quiz Bowl Web App Guide
 
-SVN directory: topics/quizbowl/projects/QuizBowl
-
 ***Setting up the project***
 
 1) Create an SQLite database called questions.db and add questions to it, or use
